@@ -50,3 +50,17 @@ export async function getRedirectUrl (req,res){
     }
 
 }
+
+export async function deleteUrlById (req,res){
+
+    const {url} = res.locals;
+
+    try{
+        await connection.query(
+            `DELETE FROM urls WHERE id=$1;`,[url.id]
+        );
+        res.sendStatus(204);
+    }catch(err){
+        res.sendStatus(500);
+    }
+}
