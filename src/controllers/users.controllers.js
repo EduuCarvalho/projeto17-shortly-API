@@ -20,3 +20,22 @@ export async function postSignUp(req,res){
         res.sendStatus(500);
     }
 }
+
+export async function postSignIn(req,res){
+
+   
+    const user = res.locals.user;
+    const token = uuid();
+console.log(user)
+    try{
+      await connection.query(
+        `INSERT INTO sessions(token,"userId") VALUES ($1,$2);`,[token,user.id]
+      )
+    res.sendStatus(200);
+    } catch (err) {
+        console.log(err)
+        res.sendStatus(500);
+       
+    }
+}
+
