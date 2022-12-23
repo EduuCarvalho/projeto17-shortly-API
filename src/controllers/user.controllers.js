@@ -14,14 +14,9 @@ export async function usersDataByToken (req,res){
         const countVisit = await connection.query(
             `SELECT SUM("visitCount") FROM urls WHERE "userId"= $1;`, [userId]
         )
-      
-       
-            console.log(countVisit.rows[0],"visista")
-
 
         const urls = await connection.query(
             `SELECT id, url,"shortUrl","visitCount" FROM urls WHERE "userId"= $1;`, [userId]);
-
 
         const result = [{
             user:userId,
@@ -30,11 +25,10 @@ export async function usersDataByToken (req,res){
             shortenedUrls:urls.rows
         }]
 
-        res.send(result)
+        res.status(200).send(result)
 
-    
     }catch (err){
      
-        res.sendStatus(505);
+        res.sendStatus(500);
     }
 }
