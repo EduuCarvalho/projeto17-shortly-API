@@ -62,7 +62,7 @@ export const validateToken = async (req, res, next) => {
       if (!findToken.rowCount) return res.sendStatus(401);
 console.log(findToken.rows[0])
       res.locals.session = findToken.rows[0];
-      
+
       next();
 
     } catch (error) {
