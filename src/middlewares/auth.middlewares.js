@@ -1,5 +1,5 @@
 import connection from "../database/db.js";
-import { signInSchema, signUpSchema } from "../models/usersJoi.js";
+import { signInSchema, signUpSchema } from "../models/auth.joi.js"
 import bcrypt from "bcrypt";
 
 export const signUpValidations = async (req,res,next)=> {
