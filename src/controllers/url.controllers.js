@@ -20,3 +20,21 @@ export async function postShortUrl (req,res) {
         res.sendStatus(504);
     }
 }
+
+export async function getUrl (req,res) {
+
+    const {id} = req.params;
+    const {url}= res.locals;
+
+    try{
+  res.status(201).send({
+    id: url.id,
+    shortUrl:url.shortUrl,
+    url:url.url
+
+  })
+
+}catch(err){
+    res.sendStatus(500);
+}
+}

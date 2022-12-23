@@ -1,4 +1,5 @@
 
+import connection from "../database/db.js";
 import { shortenSchema } from "../models/url.joi.js";
 
 export const shortenValidate = async (req,res,next)=>{
@@ -18,3 +19,19 @@ export const shortenValidate = async (req,res,next)=>{
     next();
 }
 
+export const validateUrlId = async (req,res,next)=>{
+    const {id} = req.params;
+console.log(id)
+ 
+        const url = await connection.query(
+            `SELECT * FROM urls WHERE id=$1;`,[id]
+        )
+        console.log(url)
+        if(url.rows.length===0){
+            return res.sendStatus(404)
+        }
+        res.locals.url = url.rows[0];
+        console.log(url.rows[0])
+        next();
+  
+}
