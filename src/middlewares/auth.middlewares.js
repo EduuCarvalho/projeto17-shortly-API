@@ -48,3 +48,24 @@ export const signInValidations = async (req,res,next)=>{
     next();
 }
 
+export const validateToken = async (req, res, next) => {
+
+    const { authorization } = req.headers;
+    const token = authorization?.replace("Bearer ", "");
+
+    try {
+      const findToken = await connection.query(
+        `SELECT * FROM sessions WHERE token=$1`,
+        [token]
+      );
+     
+      if (!findToken.rowCount) return res.sendStatus(401);
+console.log(findToken.rows[0])
+      res.locals.session = findToken.rows[0];
+      
+      next();
+
+    } catch (error) {
+      res.sendStatus(500);
+    }
+  };
