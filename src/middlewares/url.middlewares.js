@@ -35,3 +35,18 @@ console.log(id)
         next();
   
 }
+
+
+export const validateRedirectUrl = async (req,res,next) => {
+    const {shortUrl} = req.params;
+
+    const urls = await connection.query(
+        `SELECT * FROM urls WHERE "shortUrl"=$1;`,[shortUrl]
+    )
+    if (urls.rows.length===0){
+        return res.sendStatus(404);
+    }
+
+    res.locals.url = urls.rows[0];
+    next();
+}
